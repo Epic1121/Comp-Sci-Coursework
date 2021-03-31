@@ -2,6 +2,8 @@ import os
 
 from flask import Flask
 import model
+from google.cloud import language
+
 
 
 def create_app(test_config=None):

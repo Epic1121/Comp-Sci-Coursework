@@ -31,7 +31,7 @@ def create():
         body = model.work(title)
 
         for tweets in body:
-            bodyAct = tweets.text + "\n"
+            bodyAct = bodyAct + tweets.text + "\n"
             print(tweets.text)
         error = None
 
