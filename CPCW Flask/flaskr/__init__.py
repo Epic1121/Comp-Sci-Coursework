@@ -2,11 +2,15 @@ import os
 
 from flask import Flask
 import model
-from google.cloud import language
-
 
 
 def create_app(test_config=None):
+    """
+    This function creates the app
+
+    :param test_config: configuration of the launcher
+    :return: the app created
+    """
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
@@ -45,5 +49,10 @@ def create_app(test_config=None):
     return app
 
 
-def newsearch(searchterm):
-    model.work(searchterm)
+def newsearch(search_term):
+    """
+    refers to the work function in model.py
+
+    :param search_term:
+    """
+    model.work(search_term)

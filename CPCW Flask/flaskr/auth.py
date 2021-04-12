@@ -12,6 +12,10 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
+    """
+    This function registers a new user based on information provided by register.html
+    :return: the template for register.html
+    """
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -42,6 +46,10 @@ def register():
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
+    """
+    This function checks to see if information provided by login.html is the same as a user, then redirects to  blog.html
+    :return: the template for login.html
+    """
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -68,6 +76,9 @@ def login():
 
 @bp.before_app_request
 def load_logged_in_user():
+    """
+    This function loads a user without the user having to log on if the user has previously logged on on this computer
+    """
     user_id = session.get('user_id')
 
     if user_id is None:
@@ -80,13 +91,20 @@ def load_logged_in_user():
 
 @bp.route('/logout')
 def logout():
-    # This function logs the user out for the computer the user was using, then
+    """
+    This function logs the user out for the computer the user was using, then redirects them to index.html
+    :return: the redirect url for index.html
+    """
     session.clear()
     return redirect(url_for('index'))
 
 
 def login_required(view):
-    # This function determines whether the user has previously logged in on this device.
+    """
+    This function determines whether the user has previously logged in on this device.
+    :param view:
+    :return: wrapped_view
+    """
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:

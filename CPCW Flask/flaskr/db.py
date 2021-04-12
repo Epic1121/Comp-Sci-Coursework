@@ -6,6 +6,11 @@ from flask.cli import with_appcontext
 
 
 def get_db():
+    """
+    This function returns the database, and if no database is found, creates its own database
+
+    :return: the database
+    """
     if 'db' not in g:
         g.db = sqlite3.connect(
             current_app.config['DATABASE'],
@@ -17,6 +22,11 @@ def get_db():
 
 
 def close_db(e=None):
+    """
+    This function closes the database
+
+    :param e: None
+    """
     db = g.pop('db', None)
 
     if db is not None:
@@ -24,6 +34,9 @@ def close_db(e=None):
 
 
 def init_db():
+    """
+    Initializes the database
+    """
     db = get_db()
 
     with current_app.open_resource('schema.sql') as f:
@@ -33,12 +46,18 @@ def init_db():
 @click.command('init-db')
 @with_appcontext
 def init_db_command():
-    """Clear the existing data and create new tables."""
+    """
+    Clear the existing data and create new tables.
+    """
     init_db()
     click.echo('Initialized the database.')
 
 
 def init_app(app):
+    """
+    This function closes the database, then puts init_db_command() on the command list
 
+    :param app:
+    """
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
